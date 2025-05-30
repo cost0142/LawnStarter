@@ -1,16 +1,68 @@
+process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
+
 const express = require('express');
-const cors = require('cors');
-require('dotenv').config();
-
-const metricsRoutes = require('./routes/metrics');
-
+const mysql = require('mysql2');
+const fetch = require('node-fetch'); // certifique-se que está instalado
+const bodyParser = require('body-parser');
+const cors = require('cors'); 
 const app = express();
+const PORT = 3001;
+
+
+app.use(bodyParser.json());
 app.use(cors());
-app.use(express.json());
 
-app.use('/api', metricsRoutes);
+// Conexão com o banco
+const db = mysql.createConnection({
+  host: 'mysql',
+  user: 'root',
+  password: 'vicecity',
+  database: 'swstarterdb',
+});
 
-const port = process.env.PORT || 3001;
-app.listen(port, () => {
-  console.log(`Backend running on port ${port}`);
+db.connect(err => {
+  if (err) {
+    console.error('Erro ao conectar no MySQL:', err);
+    return;
+  }
+  console.log('✅ Conectado ao MySQL!');
+});
+
+// 🔹 ROTA DE TESTE (recrie-a se não estiver lá)
+app.get('/api/people', async (req, res) => {
+  const search = req.query.search;
+  if (!search) {
+    return res.status(400).json({ error: 'Missing search query' });
+  }
+
+  try {
+    const fetch = (await import('node-fetch')).default;
+    const response = await fetch(`https://swapi.dev/api/people/?search=${search}`);
+    const data = await response.json();
+    res.json(data);
+  } catch (err) {
+    console.error('Erro ao buscar na SWAPI:', err);
+    res.status(500).json({ error: 'Erro ao buscar na SWAPI' });
+  }
+});
+
+
+// 🔹 ROTA DE MÉTRICA
+app.post('/api/metrics', (req, res) => {
+  const { metric_type, metric_data } = req.body;
+  db.query(
+    'INSERT INTO metrics (metric_type, metric_data) VALUES (?, ?)',
+    [metric_type, metric_data],
+    (err) => {
+      if (err) {
+        console.error('Erro ao salvar métrica:', err);
+        return res.status(500).json({ message: 'Erro interno' });
+      }
+      res.status(200).json({ message: 'Métrica salva com sucesso' });
+    }
+  );
+});
+
+app.listen(PORT, () => {
+  console.log(`🚀 Servidor backend rodando em http://localhost:${PORT}`);
 });
