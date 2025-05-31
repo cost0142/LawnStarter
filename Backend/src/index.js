@@ -46,6 +46,20 @@ app.get('/api/people', async (req, res) => {
   }
 });
 
+app.get('/api/people/:id', async (req, res) => {
+  const { id } = req.params;
+  try {
+    const fetch = (await import('node-fetch')).default;
+    const response = await fetch(`https://swapi.dev/api/people/${id}/`);
+    const data = await response.json();
+    res.json(data);
+  } catch (err) {
+    console.error('Erro ao buscar detalhes da pessoa:', err);
+    res.status(500).json({ error: 'Erro ao buscar detalhes da pessoa' });
+  }
+});
+
+
 
 // 🔹 ROTA DE MÉTRICA
 app.post('/api/metrics', (req, res) => {
