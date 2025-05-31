@@ -31,7 +31,7 @@ function SearchPage() {
     try {
       const res = await fetch(`http://localhost:3001/api/people?search=${query}`);
       const data = await res.json();
-
+      console.log(data);
       if (data.results && data.results.length > 0) {
         setResults(data.results);
       } else {
