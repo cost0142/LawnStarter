@@ -1,30 +1,123 @@
-✅ STEP 1: Finalize the Backend
-Goal: Ensure the backend is working and saving metrics in MySQL.
 
-✔️ 1.1. Create docker-compose.yml at the project root
-This will spin up Node.js, MySQL, and optionally the frontend.
+# SWStarter Fullstack App
 
-✔️ 1.2. Create the SQL schema (metrics table)
-Save it as schema.sql to run automatically.
+This project is a fullstack Star Wars-themed application built with:
 
-✔️ 1.3. Test the /api/metrics route via Postman or curl
+- **Frontend**: React (without Vite), styled using SCSS.
+- **Backend**: Node.js with Express, connecting to a MySQL database.
+- **Dockerized**: Runs using Docker Compose.
 
-✅ STEP 2: Create the React Frontend
-Goal: Build the UI with search functionality for SWAPI and metric submission.
+## 🔧 Requirements
 
-✔️ 2.1. Create a form to search for people on SWAPI
-✔️ 2.2. Display results (name + view details button)
-✔️ 2.3. Send metric_type and metric_data to the backend
+- Node.js (if running without Docker)
+- MySQL (if running without Docker)
+- Docker & Docker Compose (recommended)
 
-✅ STEP 3: Dockerize Everything
-Goal: Run everything with a single command.
+---
 
-✔️ 3.1. Create a Dockerfile inside Frontend/
-✔️ 3.2. Test with docker-compose up --build and verify access
+## 🚀 How to Run
 
-✅ STEP 4: Statistics (Queue and Events every 5 min)
-Goal: Endpoint that returns reprocessed statistics.
+### Option 1: Docker (Recommended)
 
+> This will start the backend, MySQL, and optionally the frontend (if configured).
+
+
+1. Run the following command from the project root:
+
+```bash
+docker-compose up --build
+```
+
+3. Backend: [http://localhost:3001](http://localhost:3001)
+4. Frontend: [http://localhost:3000](http://localhost:3000) (if configured)
+
+### Option 2: Manual Setup (Frontend & Backend separately)
+
+---
+
+## 📦 Backend
+
+### 1. Install dependencies
+
+```bash
+cd backend
+npm install
+```
+
+### 2. Start the server
+
+```bash
+npm start
+```
+
+### 3. Test the API
+
+Test using:
+
+```
+curl -X POST http://localhost:3001/api/metrics   -H "Content-Type: application/json"   -d '{"metric_type":"search","metric_data":"Skywalker"}'
+```
+
+---
+
+## 💻 Frontend
+
+### 1. Install dependencies
+
+```bash
+cd frontend
+npm install
+```
+
+### 2. Start the application
+
+```bash
+npm start
+```
+
+Then open:
+
+[http://localhost:3000](http://localhost:3000)
+
+---
+
+## 📁 Project Structure
+
+```
+project-root/
+│
+├── backend/
+│   ├── index.js
+│   ├── routes/
+│   ├── controllers/
+│   ├── services/
+│   ├── repositories/
+│   └── database/
+│
+├── frontend/
+│   ├── src/
+│   │   ├── Pages/
+│   │   ├── components/
+│   │   ├── styles/
+│   │   └── ...
+│   └── package.json
+│
+└── docker-compose.yml
+```
+
+---
+
+## 📘 Notes
+
+- Make sure MySQL is running and accessible if not using Docker.
+- The database schema is created automatically on the first request if missing.
+- All metrics are stored in the `metrics` table in the MySQL database.
+
+---
+
+## 🧑‍💻 Author
+
+Developed by Hygor Costa.
 
 
 
