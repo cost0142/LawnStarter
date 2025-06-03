@@ -24,3 +24,20 @@ Goal: Run everything with a single command.
 
 ✅ STEP 4: Statistics (Queue and Events every 5 min)
 Goal: Endpoint that returns reprocessed statistics.
+
+
+
+
+
+Backend ->
+1) brew install colima
+
+Inicie o Colima (com suporte a Docker):
+1.1) colima start
+
+Se estiver usando arquitetura x86_64, especifique:
+1.2) colima start --arch x86_64 --memory 4
+
+2) docker-compose up --build
+
+Front -> npm start
