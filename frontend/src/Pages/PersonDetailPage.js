@@ -1,6 +1,7 @@
 // src/Pages/PersonDetailPage.js
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate, useLocation } from 'react-router-dom';
+import styles from './Search.module.css';
 
 function PersonDetailPage() {
   const { id } = useParams();
@@ -10,7 +11,14 @@ function PersonDetailPage() {
   const statePerson = location.state?.person;
   const [person, setPerson] = useState(statePerson || null);
   const [filmTitles, setFilmTitles] = useState([]);
+  const [isExiting, setIsExiting] = useState(false);
 
+  const handleBack = () => {
+    setIsExiting(true);
+    setTimeout(() => {
+      navigate('/');
+    }, 400);
+  };
   useEffect(() => {
     if (!statePerson) {
       const fetchPerson = async () => {
@@ -27,30 +35,41 @@ function PersonDetailPage() {
     }
   }, [id, statePerson]);
 
+
   useEffect(() => {
     const fetchFilms = async () => {
-      if (!person?.films) return;
+      if (!Array.isArray(person?.films) || person.films.length === 0) return;
+
       try {
         const titles = await Promise.all(
           person.films.map(async (filmUrl) => {
-            const res = await fetch(filmUrl);
+            const filmId = filmUrl.match(/\/films\/(\d+)\//)?.[1];
+            if (!filmId) return null;
+            const res = await fetch(`http://localhost:3001/api/proxy/films/${filmId}`);
             const data = await res.json();
+            console.log('PersonDetailPage rendered -----+++++->>>>', data);
             return { title: data.title, url: filmUrl };
           })
         );
-        setFilmTitles(titles);
+        setFilmTitles(titles.filter(Boolean));
       } catch (error) {
         console.error('Erro ao buscar filmes:', error);
       }
     };
+
     fetchFilms();
   }, [person]);
 
+
+
   if (!person) return <p style={{ padding: 40 }}>Carregando...</p>;
 
+
+
   return (
-    <div style={{ fontFamily: 'Arial, sans-serif', background: '#f4f4f4', minHeight: '100vh', padding: 40 }}>
-      <h2 style={{ textAlign: 'center', color: '#00c26e', marginBottom: 40 }}>SWStarter</h2>
+    <div className={`${styles.container} ${isExiting ? styles.fadeOut : ''}`}>
+      <h1 className={styles.title}>⭐ SWStarter</h1>
+      <p className={styles.title}> Details</p>
 
       <div
         style={{
@@ -64,7 +83,6 @@ function PersonDetailPage() {
           boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
         }}
       >
-        {/* Lado esquerdo - detalhes */}
         <div style={{ width: '45%' }}>
           <h3 style={{ marginBottom: 10 }}>{person.name}</h3>
           <hr />
@@ -76,32 +94,28 @@ function PersonDetailPage() {
           <p><strong>Mass:</strong> {person.mass}</p>
         </div>
 
-        {/* Lado direito - filmes */}
         <div style={{ width: '45%' }}>
           <h3 style={{ marginBottom: 10 }}>Movies</h3>
           <hr />
-          {filmTitles.map((film, i) => (
-            <p key={i}>
-              <a href={film.url} target="_blank" rel="noreferrer">
-                {film.title}
-              </a>
-            </p>
-          ))}
+          {filmTitles.length === 0 ? (
+            <p style={{ color: '#888' }}>No movies available.</p>
+          ) : (
+            filmTitles.map((film, i) => (
+              <p key={i}>
+                <a href={film.url} target="_blank" rel="noreferrer">
+                  {film.title}
+                </a>
+              </p>
+            ))
+          )}
         </div>
+
       </div>
 
       <div style={{ marginTop: 30, textAlign: 'center' }}>
         <button
-          onClick={() => navigate('/')}
-          style={{
-            backgroundColor: '#00c26e',
-            color: '#fff',
-            border: 'none',
-            padding: '12px 24px',
-            fontWeight: 'bold',
-            borderRadius: 20,
-            cursor: 'pointer',
-          }}
+          className={styles.backButton}
+          onClick={handleBack}
         >
           BACK TO SEARCH
         </button>
@@ -111,3 +125,5 @@ function PersonDetailPage() {
 }
 
 export default PersonDetailPage;
+
+
