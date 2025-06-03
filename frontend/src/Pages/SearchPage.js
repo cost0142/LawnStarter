@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { Circles } from 'react-loader-spinner';
-import styles from './Search.module.css';
+import styles from './Search.module.scss';
 
 function SearchPage() {
   const [query, setQuery] = useState('');

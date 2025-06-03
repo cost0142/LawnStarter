@@ -1,7 +1,7 @@
 // src/Pages/PersonDetailPage.js
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate, useLocation } from 'react-router-dom';
-import styles from './Search.module.css';
+import styles from './Search.module.scss';
 
 function PersonDetailPage() {
   const { id } = useParams();
