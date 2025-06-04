@@ -4,7 +4,7 @@ const express = require('express');
 const mysql = require('mysql2');
 const fetch = require('node-fetch'); // certifique-se que está instalado
 const bodyParser = require('body-parser');
-const cors = require('cors'); 
+const cors = require('cors');
 const app = express();
 const PORT = 3001;
 

@@ -72,7 +72,7 @@ npm install
 ### 2. Start the application
 
 ```bash
-npm start
+cd 
 ```
 
 Then open:
