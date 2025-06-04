@@ -42,7 +42,7 @@ app.get('/api/people', async (req, res) => {
     res.json(data);
   } catch (err) {
     console.error('Erro ao buscar na SWAPI:', err);
-    res.status(500).json({ error: 'Erro ao buscar na SWAPI' });
+    res.status(500).json({ error: 'Error to search on SWAPI' });
   }
 });
 
@@ -54,8 +54,8 @@ app.get('/api/people/:id', async (req, res) => {
     const data = await response.json();
     res.json(data);
   } catch (err) {
-    console.error('Erro ao buscar detalhes da pessoa:', err);
-    res.status(500).json({ error: 'Erro ao buscar detalhes da pessoa' });
+    console.error('Error fetching person details:', err);
+    res.status(500).json({ error: 'Error fetching person details' });
   }
 });
 
@@ -70,13 +70,13 @@ app.post('/api/metrics', (req, res) => {
     (err) => {
       if (err) {
         console.error('Erro ao salvar métrica:', err);
-        return res.status(500).json({ message: 'Erro interno' });
+        return res.status(500).json({ message: 'Intern Error' });
       }
-      res.status(200).json({ message: 'Métrica salva com sucesso' });
+      res.status(200).json({ message: 'Metric saved successfully' });
     }
   );
 });
 
 app.listen(PORT, () => {
-  console.log(`🚀 Servidor backend rodando em http://localhost:${PORT}`);
+  console.log(`🚀 Sever Running on backend http://localhost:${PORT}`);
 });

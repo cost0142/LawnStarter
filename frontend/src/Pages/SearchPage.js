@@ -30,11 +30,10 @@ function SearchPage() {
       // const data = await res.json();
       const data = await res.json();
       setResults(data.results || []);
-      console.log('🔍 Dados recebidos do backend: -=-=-=-=-=-=-=-HYGOR=-=-=-=-=-', results, data);
-      if (!data.results.length) setMessage('Nenhum personagem encontrado.');
+      if (!data.results.length) setMessage('No characters found.');
     } catch (error) {
-      console.error('Erro ao buscar na SWAPI:', error);
-      setMessage('Erro ao buscar personagem.');
+      console.error('Error fetching from SWAPI:', error);
+      setMessage('Error searching for character.');
     } finally {
       setLoading(false);
     }

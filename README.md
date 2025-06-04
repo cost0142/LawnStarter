@@ -17,6 +17,26 @@ This project is a fullstack Star Wars-themed application built with:
 
 ## 🚀 How to Run
 
+## Quick Start
+
+1) cd backend
+   brew install colima
+
+Starts Colima (with Dockes Support):
+1.1) colima start
+
+	x86_64
+1.2) colima start --arch x86_64 --memory 4
+
+2) cd .. 
+	 docker-compose up --build
+
+3) npm install --legacy-peer-deps
+
+4) cd frontend
+   npm start
+
+
 ### Option 1: Docker (Recommended)
 
 > This will start the backend, MySQL, and optionally the frontend (if configured).
@@ -122,15 +142,11 @@ Developed by Hygor Costa.
 
 
 
-Backend ->
-1) brew install colima
 
-Inicie o Colima (com suporte a Docker):
-1.1) colima start
 
-Se estiver usando arquitetura x86_64, especifique:
-1.2) colima start --arch x86_64 --memory 4
 
-2) docker-compose up --build
 
-Front -> npm start
+
+
+
+

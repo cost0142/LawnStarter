@@ -24,7 +24,7 @@ function PersonDetailPage() {
       const fetchPerson = async () => {
         try {
           const res = await fetch(`http://localhost:3001/api/people/${id}`);
-          if (!res.ok) throw new Error('Erro ao buscar personagem');
+          if (!res.ok) throw new Error('Error searching for character');
           const data = await res.json();
           setPerson(data);
         } catch (err) {
@@ -47,13 +47,12 @@ function PersonDetailPage() {
             if (!filmId) return null;
             const res = await fetch(`http://localhost:3001/api/proxy/films/${filmId}`);
             const data = await res.json();
-            console.log('PersonDetailPage rendered -----+++++->>>>', data);
             return { title: data.title, url: filmUrl };
           })
         );
         setFilmTitles(titles.filter(Boolean));
       } catch (error) {
-        console.error('Erro ao buscar filmes:', error);
+        console.error('Error searching for movies:', error);
       }
     };
 
@@ -62,7 +61,7 @@ function PersonDetailPage() {
 
 
 
-  if (!person) return <p style={{ padding: 40 }}>Carregando...</p>;
+  if (!person) return <p style={{ padding: 40 }}>Loading...</p>;
 
 
 
